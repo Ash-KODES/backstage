@@ -268,23 +268,18 @@ export const coreExtensionData: {
 export function createApiExtension<
   TConfig extends {},
   TInputs extends AnyExtensionInputMap,
->(
-  options: (
-    | {
-        api: AnyApiRef;
-        factory: (options: {
-          config: TConfig;
-          inputs: Expand<ExtensionInputValues<TInputs>>;
-        }) => AnyApiFactory;
-      }
-    | {
-        factory: AnyApiFactory;
-      }
-  ) & {
-    configSchema?: PortableSchema<TConfig>;
-    inputs?: TInputs;
-  },
-): Extension<TConfig>;
+>(options: {
+  factory:
+    | AnyApiFactory
+    | ((options: {
+        config: TConfig;
+        inputs: Expand<ExtensionInputValues<TInputs>>;
+      }) => AnyApiFactory);
+  namespace?: string;
+  name?: string;
+  configSchema?: PortableSchema<TConfig>;
+  inputs?: TInputs;
+}): ExtensionDefinition<TConfig>;
 
 export { createApiFactory };
 
@@ -297,7 +292,7 @@ export function createExtension<
   TConfig = never,
 >(
   options: CreateExtensionOptions<TOutput, TInputs, TConfig>,
-): Extension<TConfig>;
+): ExtensionDefinition<TConfig>;
 
 // @public (undocumented)
 export function createExtensionDataRef<TData>(
@@ -344,9 +339,13 @@ export interface CreateExtensionOptions<
     inputs: Expand<ExtensionInputValues<TInputs>>;
   }): Expand<ExtensionDataValues<TOutput>>;
   // (undocumented)
-  id: string;
-  // (undocumented)
   inputs?: TInputs;
+  // (undocumented)
+  kind?: string;
+  // (undocumented)
+  name?: string;
+  // (undocumented)
+  namespace?: string;
   // (undocumented)
   output: TOutput;
 }
@@ -383,11 +382,12 @@ export function createExternalRouteRef<
 
 // @public
 export function createNavItemExtension(options: {
-  id: string;
+  namespace?: string;
+  name?: string;
   routeRef: RouteRef<undefined>;
   title: string;
   icon: IconComponent_2;
-}): Extension<{
+}): ExtensionDefinition<{
   title: string;
 }>;
 
@@ -406,7 +406,8 @@ export function createPageExtension<
         configSchema: PortableSchema<TConfig>;
       }
   ) & {
-    id: string;
+    namespace?: string;
+    name?: string;
     attachTo?: {
       id: string;
       input: string;
@@ -419,7 +420,7 @@ export function createPageExtension<
       inputs: Expand<ExtensionInputValues<TInputs>>;
     }) => Promise<JSX.Element>;
   },
-): Extension<TConfig>;
+): ExtensionDefinition<TConfig>;
 
 // @public (undocumented)
 export function createPlugin<
@@ -483,7 +484,9 @@ export function createSubRouteRef<
 }): MakeSubRouteRef<PathParams<Path>, ParentParams>;
 
 // @public (undocumented)
-export function createThemeExtension(theme: AppTheme): Extension<never>;
+export function createThemeExtension(
+  theme: AppTheme,
+): ExtensionDefinition<never>;
 
 export { DiscoveryApi };
 
@@ -571,6 +574,40 @@ export type ExtensionDataValues<TExtensionData extends AnyExtensionDataMap> = {
 };
 
 // @public (undocumented)
+export interface ExtensionDefinition<TConfig> {
+  // (undocumented)
+  $$type: '@backstage/ExtensionDefinition';
+  // (undocumented)
+  attachTo: {
+    id: string;
+    input: string;
+  };
+  // (undocumented)
+  configSchema?: PortableSchema<TConfig>;
+  // (undocumented)
+  disabled: boolean;
+  // (undocumented)
+  factory(options: {
+    node: AppNode;
+    config: TConfig;
+    inputs: Record<
+      string,
+      undefined | Record<string, unknown> | Array<Record<string, unknown>>
+    >;
+  }): ExtensionDataValues<any>;
+  // (undocumented)
+  inputs: AnyExtensionInputMap;
+  // (undocumented)
+  kind?: string;
+  // (undocumented)
+  name?: string;
+  // (undocumented)
+  namespace?: string;
+  // (undocumented)
+  output: AnyExtensionDataMap;
+}
+
+// @public (undocumented)
 export interface ExtensionInput<
   TExtensionData extends AnyExtensionDataMap,
   TConfig extends {
@@ -610,7 +647,7 @@ export interface ExtensionOverrides {
 // @public (undocumented)
 export interface ExtensionOverridesOptions {
   // (undocumented)
-  extensions: Extension<unknown>[];
+  extensions: ExtensionDefinition<unknown>[];
   // (undocumented)
   featureFlags?: FeatureFlagConfig[];
 }
@@ -708,7 +745,7 @@ export interface PluginOptions<
   ExternalRoutes extends AnyExternalRoutes,
 > {
   // (undocumented)
-  extensions?: Extension<unknown>[];
+  extensions?: ExtensionDefinition<unknown>[];
   // (undocumented)
   externalRoutes?: ExternalRoutes;
   // (undocumented)
