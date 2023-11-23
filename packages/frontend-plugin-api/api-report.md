@@ -460,7 +460,8 @@ export function createSignInPageExtension<
   TConfig extends {},
   TInputs extends AnyExtensionInputMap,
 >(options: {
-  id: string;
+  namespace?: string;
+  name?: string;
   attachTo?: {
     id: string;
     input: string;
@@ -472,7 +473,7 @@ export function createSignInPageExtension<
     config: TConfig;
     inputs: Expand<ExtensionInputValues<TInputs>>;
   }) => Promise<ComponentType<SignInPageProps>>;
-}): Extension<TConfig>;
+}): ExtensionDefinition<TConfig>;
 
 // @public
 export function createSubRouteRef<
