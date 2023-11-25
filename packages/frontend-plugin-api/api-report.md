@@ -30,6 +30,9 @@ import { ConfigApi } from '@backstage/core-plugin-api';
 import { configApiRef } from '@backstage/core-plugin-api';
 import { createApiFactory } from '@backstage/core-plugin-api';
 import { createApiRef } from '@backstage/core-plugin-api';
+import { createTranslationMessages } from '@backstage/core-plugin-api/alpha';
+import { createTranslationRef } from '@backstage/core-plugin-api/alpha';
+import { createTranslationResource } from '@backstage/core-plugin-api/alpha';
 import { DiscoveryApi } from '@backstage/core-plugin-api';
 import { discoveryApiRef } from '@backstage/core-plugin-api';
 import { ErrorApi } from '@backstage/core-plugin-api';
@@ -73,10 +76,15 @@ import { StorageApi } from '@backstage/core-plugin-api';
 import { storageApiRef } from '@backstage/core-plugin-api';
 import { StorageValueSnapshot } from '@backstage/core-plugin-api';
 import { TranslationMessages } from '@backstage/core-plugin-api/alpha';
+import { TranslationMessagesOptions } from '@backstage/core-plugin-api/alpha';
+import { TranslationRef } from '@backstage/core-plugin-api/alpha';
+import { TranslationRefOptions } from '@backstage/core-plugin-api/alpha';
 import { TranslationResource } from '@backstage/core-plugin-api/alpha';
+import { TranslationResourceOptions } from '@backstage/core-plugin-api/alpha';
 import { TypesToApiRefs } from '@backstage/core-plugin-api';
 import { useApi } from '@backstage/core-plugin-api';
 import { useApiHolder } from '@backstage/core-plugin-api';
+import { useTranslationRef } from '@backstage/core-plugin-api/alpha';
 import { withApis } from '@backstage/core-plugin-api';
 import { z } from 'zod';
 import { ZodSchema } from 'zod';
@@ -518,6 +526,12 @@ export namespace createTranslationExtension {
     >;
 }
 
+export { createTranslationMessages };
+
+export { createTranslationRef };
+
+export { createTranslationResource };
+
 export { DiscoveryApi };
 
 export { discoveryApiRef };
@@ -835,6 +849,18 @@ export interface SubRouteRef<
   readonly T: TParams;
 }
 
+export { TranslationMessages };
+
+export { TranslationMessagesOptions };
+
+export { TranslationRef };
+
+export { TranslationRefOptions };
+
+export { TranslationResource };
+
+export { TranslationResourceOptions };
+
 export { TypesToApiRefs };
 
 export { useApi };
@@ -858,6 +884,8 @@ export function useRouteRef<TParams extends AnyRouteRefParams>(
 export function useRouteRefParams<Params extends AnyRouteRefParams>(
   _routeRef: RouteRef<Params> | SubRouteRef<Params>,
 ): Params;
+
+export { useTranslationRef };
 
 export { withApis };
 ```
