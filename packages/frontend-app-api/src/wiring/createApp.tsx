@@ -21,6 +21,7 @@ import {
   appTreeApiRef,
   BackstagePlugin,
   coreExtensionData,
+  createTranslationExtension,
   ExtensionDataRef,
   ExtensionOverrides,
   RouteRef,
@@ -400,6 +401,16 @@ function createApiHolder(
       ?.map(e => e.instance?.getData(coreExtensionData.theme))
       .filter((x): x is AppTheme => !!x) ?? [];
 
+  const translationResources =
+    tree.root.edges.attachments
+      .get('translations')
+      ?.map(e =>
+        e.instance?.getData(createTranslationExtension.translationDataRef),
+      )
+      .filter(
+        (x): x is typeof createTranslationExtension.translationDataRef.T => !!x,
+      ) ?? [];
+
   for (const factory of [...defaultApis, ...pluginApis]) {
     factoryRegistry.register('default', factory);
   }
@@ -438,15 +449,6 @@ function createApiHolder(
     factory: () => AppLanguageSelector.createWithStorage(),
   });
 
-  factoryRegistry.register('default', {
-    api: translationApiRef,
-    deps: { languageApi: appLanguageApiRef },
-    factory: ({ languageApi }) =>
-      I18nextTranslationApi.create({
-        languageApi,
-      }),
-  });
-
   factoryRegistry.register('static', {
     api: configApiRef,
     deps: {},
@@ -459,12 +461,13 @@ function createApiHolder(
     factory: () => AppLanguageSelector.createWithStorage(),
   });
 
-  factoryRegistry.register('default', {
+  factoryRegistry.register('static', {
     api: translationApiRef,
     deps: { languageApi: appLanguageApiRef },
     factory: ({ languageApi }) =>
       I18nextTranslationApi.create({
         languageApi,
+        resources: translationResources,
       }),
   });
 

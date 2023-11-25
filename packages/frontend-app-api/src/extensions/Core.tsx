@@ -18,6 +18,7 @@ import {
   coreExtensionData,
   createExtension,
   createExtensionInput,
+  createTranslationExtension,
 } from '@backstage/frontend-plugin-api';
 
 export const Core = createExtension({
@@ -29,6 +30,9 @@ export const Core = createExtension({
     }),
     themes: createExtensionInput({
       theme: coreExtensionData.theme,
+    }),
+    translations: createExtensionInput({
+      translation: createTranslationExtension.translationDataRef,
     }),
     root: createExtensionInput(
       {
