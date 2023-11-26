@@ -18,7 +18,7 @@ import React, { lazy } from 'react';
 import {
   AnyExtensionInputMap,
   ExtensionBoundary,
-  ExtensionInputValues,
+  ResolvedExtensionInputs,
   RouteRef,
   coreExtensionData,
   createExtension,
@@ -85,7 +85,7 @@ export function createEntityCardExtension<
   inputs?: TInputs;
   filter?: (ctx: { entity: Entity }) => boolean;
   loader: (options: {
-    inputs: Expand<ExtensionInputValues<TInputs>>;
+    inputs: Expand<ResolvedExtensionInputs<TInputs>>;
   }) => Promise<JSX.Element>;
 }) {
   return createExtension({
@@ -147,7 +147,7 @@ export function createEntityContentExtension<
   defaultTitle: string;
   filter?: (ctx: { entity: Entity }) => boolean;
   loader: (options: {
-    inputs: Expand<ExtensionInputValues<TInputs>>;
+    inputs: Expand<ResolvedExtensionInputs<TInputs>>;
   }) => Promise<JSX.Element>;
 }) {
   return createExtension({

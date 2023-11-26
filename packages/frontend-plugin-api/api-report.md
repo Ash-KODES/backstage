@@ -273,7 +273,7 @@ export function createApiExtension<
     | AnyApiFactory
     | ((options: {
         config: TConfig;
-        inputs: Expand<ExtensionInputValues<TInputs>>;
+        inputs: Expand<ResolvedExtensionInputs<TInputs>>;
       }) => AnyApiFactory);
   namespace?: string;
   name?: string;
@@ -336,7 +336,7 @@ export interface CreateExtensionOptions<
   factory(options: {
     node: AppNode;
     config: TConfig;
-    inputs: Expand<ExtensionInputValues<TInputs>>;
+    inputs: Expand<ResolvedExtensionInputs<TInputs>>;
   }): Expand<ExtensionDataValues<TOutput>>;
   // (undocumented)
   inputs?: TInputs;
@@ -417,7 +417,7 @@ export function createPageExtension<
     routeRef?: RouteRef;
     loader: (options: {
       config: TConfig;
-      inputs: Expand<ExtensionInputValues<TInputs>>;
+      inputs: Expand<ResolvedExtensionInputs<TInputs>>;
     }) => Promise<JSX.Element>;
   },
 ): ExtensionDefinition<TConfig>;
@@ -471,7 +471,7 @@ export function createSignInPageExtension<
   inputs?: TInputs;
   loader: (options: {
     config: TConfig;
-    inputs: Expand<ExtensionInputValues<TInputs>>;
+    inputs: Expand<ResolvedExtensionInputs<TInputs>>;
   }) => Promise<ComponentType<SignInPageProps>>;
 }): ExtensionDefinition<TConfig>;
 
@@ -518,10 +518,7 @@ export interface Extension<TConfig> {
   factory(options: {
     node: AppNode;
     config: TConfig;
-    inputs: Record<
-      string,
-      undefined | Record<string, unknown> | Array<Record<string, unknown>>
-    >;
+    inputs: ResolvedExtensionInputs<any>;
   }): ExtensionDataValues<any>;
   // (undocumented)
   id: string;
@@ -591,10 +588,7 @@ export interface ExtensionDefinition<TConfig> {
   factory(options: {
     node: AppNode;
     config: TConfig;
-    inputs: Record<
-      string,
-      undefined | Record<string, unknown> | Array<Record<string, unknown>>
-    >;
+    inputs: ResolvedExtensionInputs<any>;
   }): ExtensionDataValues<any>;
   // (undocumented)
   inputs: AnyExtensionInputMap;
@@ -623,21 +617,6 @@ export interface ExtensionInput<
   // (undocumented)
   extensionData: TExtensionData;
 }
-
-// @public
-export type ExtensionInputValues<
-  TInputs extends {
-    [name in string]: ExtensionInput<any, any>;
-  },
-> = {
-  [InputName in keyof TInputs]: false extends TInputs[InputName]['config']['singleton']
-    ? Array<Expand<ExtensionDataValues<TInputs[InputName]['extensionData']>>>
-    : false extends TInputs[InputName]['config']['optional']
-    ? Expand<ExtensionDataValues<TInputs[InputName]['extensionData']>>
-    : Expand<
-        ExtensionDataValues<TInputs[InputName]['extensionData']> | undefined
-      >;
-};
 
 // @public (undocumented)
 export interface ExtensionOverrides {
@@ -766,6 +745,28 @@ export type PortableSchema<TOutput> = {
 export { ProfileInfo };
 
 export { ProfileInfoApi };
+
+// @public
+export type ResolvedExtensionInput<TExtensionData extends AnyExtensionDataMap> =
+  {
+    extensionId: string;
+    output: ExtensionDataValues<TExtensionData>;
+  };
+
+// @public
+export type ResolvedExtensionInputs<
+  TInputs extends {
+    [name in string]: ExtensionInput<any, any>;
+  },
+> = {
+  [InputName in keyof TInputs]: false extends TInputs[InputName]['config']['singleton']
+    ? Array<Expand<ResolvedExtensionInput<TInputs[InputName]['extensionData']>>>
+    : false extends TInputs[InputName]['config']['optional']
+    ? Expand<ResolvedExtensionInput<TInputs[InputName]['extensionData']>>
+    : Expand<
+        ResolvedExtensionInput<TInputs[InputName]['extensionData']> | undefined
+      >;
+};
 
 // @public
 export type RouteFunc<TParams extends AnyRouteRefParams> = (
