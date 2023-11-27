@@ -1,5 +1,23 @@
 # @backstage/frontend-plugin-api
 
+## 0.4.0-next.1
+
+### Minor Changes
+
+- a5a04739e1: The extension `factory` function now longer receives `id` or `source`, but instead now provides the extension's `AppNode` as `node`. The `ExtensionBoundary` component has also been updated to receive a `node` prop rather than `id` and `source`.
+
+### Patch Changes
+
+- 5eb6b8a7bc: Added the nav logo extension for customization of sidebar logo
+- 59709286b3: Add feature flags to plugins and extension overrides.
+- e539735435: Added `createSignInPageExtension`.
+- Updated dependencies
+  - @backstage/core-plugin-api@1.8.1-next.1
+  - @backstage/core-components@0.13.9-next.1
+  - @backstage/config@1.1.1
+  - @backstage/types@1.1.1
+  - @backstage/version-bridge@1.0.7
+
 ## 0.3.1-next.0
 
 ### Patch Changes

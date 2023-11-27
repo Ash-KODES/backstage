@@ -1,5 +1,23 @@
 # @backstage/plugin-scaffolder-react
 
+## 1.6.2-next.1
+
+### Patch Changes
+
+- fa66d1b5b3: Fixed bug in `ReviewState` where `enum` value was displayed in step review instead of the corresponding label when using `enumNames`
+- a518c5a25b: Updated dependency `@react-hookz/web` to `^23.0.0`.
+- Updated dependencies
+  - @backstage/core-plugin-api@1.8.1-next.1
+  - @backstage/plugin-catalog-react@1.9.2-next.1
+  - @backstage/core-components@0.13.9-next.1
+  - @backstage/catalog-client@1.4.6
+  - @backstage/catalog-model@1.4.3
+  - @backstage/errors@1.2.3
+  - @backstage/theme@0.5.0-next.0
+  - @backstage/types@1.1.1
+  - @backstage/version-bridge@1.0.7
+  - @backstage/plugin-scaffolder-common@1.4.3
+
 ## 1.6.2-next.0
 
 ### Patch Changes

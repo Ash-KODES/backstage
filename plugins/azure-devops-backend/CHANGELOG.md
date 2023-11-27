@@ -1,5 +1,22 @@
 # @backstage/plugin-azure-devops-backend
 
+## 0.5.0-next.1
+
+### Minor Changes
+
+- 844969cd97: **BREAKING** New `fromConfig` static method must be used now when creating an instance of the `AzureDevOpsApi`
+
+  Added support for using the `AzureDevOpsCredentialsProvider`
+
+### Patch Changes
+
+- Updated dependencies
+  - @backstage/integration@1.8.0-next.1
+  - @backstage/backend-common@0.20.0-next.1
+  - @backstage/backend-plugin-api@0.6.8-next.1
+  - @backstage/config@1.1.1
+  - @backstage/plugin-azure-devops-common@0.3.1
+
 ## 0.4.5-next.0
 
 ### Patch Changes

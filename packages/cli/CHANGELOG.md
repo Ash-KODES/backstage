@@ -1,5 +1,24 @@
 # @backstage/cli
 
+## 0.24.1-next.1
+
+### Patch Changes
+
+- 3e358b0dff: Added deprecation warning for React Router v6 beta, please make sure you have migrated your apps to use React Router v6 stable as support for the beta version will be removed. See the [migration tutorial](https://backstage.io/docs/tutorials/react-router-stable-migration) for more information.
+- 8056425e09: Updated dependency `@typescript-eslint/eslint-plugin` to `6.12.0`.
+- 33e96e59e7: Switched the `@typescript-eslint/eslint-plugin` dependency back to using a `^` version range.
+- Updated dependencies
+  - @backstage/eslint-plugin@0.1.4-next.0
+  - @backstage/integration@1.8.0-next.1
+  - @backstage/catalog-model@1.4.3
+  - @backstage/cli-common@0.1.13
+  - @backstage/cli-node@0.2.0
+  - @backstage/config@1.1.1
+  - @backstage/config-loader@1.5.3
+  - @backstage/errors@1.2.3
+  - @backstage/release-manifests@0.0.11
+  - @backstage/types@1.1.1
+
 ## 0.24.1-next.0
 
 ### Patch Changes
